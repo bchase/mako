@@ -204,7 +204,7 @@ errorDetectedFlash =
         \lang ->
             case lang of
                 JP ->
-                    text "err"
+                    text "エラー"
 
                 EN ->
                     text "err"
