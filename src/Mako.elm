@@ -21,7 +21,7 @@ type alias Model =
     , past : List View
     , lang : Lang
     , flash : Flash
-    , cd : Bool
+    , n : N
     }
 
 
@@ -36,7 +36,7 @@ initModel flags =
     , past = []
     , lang = JP
     , flash = NoFlash
-    , cd = False
+    , n = Namae
     }
 
 
@@ -96,6 +96,9 @@ type KIResp
 type CDResp
     = CDC
     | CDN
+    | CDSan
+    | CDSama
+    | CDKakka
 
 
 type BFResp
@@ -118,35 +121,45 @@ type Resp
     | ITResp_ ITResp
 
 
-redirect : Resp -> ( View, Flash, Maybe Bool )
-redirect resp =
+redirect : N -> Resp -> ( View, Flash, Maybe N )
+redirect n resp =
     case resp of
         DisclaimerResp_ DisclaimerYes ->
             ( CD, NoFlash, Nothing )
 
         CDResp_ CDC ->
-            ( SS, understoodFlash, Just True )
+            ( SS, understoodFlash, Just Chan )
 
         CDResp_ CDN ->
-            ( SS, understoodFlash, Just False )
+            ( SS, understoodFlash, Just Namae )
+
+        CDResp_ CDSan ->
+            ( SS, understoodFlash, Just San )
+
+        CDResp_ CDSama ->
+            ( SS, understoodFlash, Just Sama )
+
+        CDResp_ CDKakka ->
+            ( SS, understoodFlash, Just Kakka )
 
         SSResp_ SSYes ->
             ( AK, NoFlash, Nothing )
 
         SSResp_ SSNo ->
-            ( SS, errorDetectedFlash, Nothing )
+            ( SS, autheErrorFlash n, Nothing )
 
         AKResp_ AKM ->
             ( KI, NoFlash, Nothing )
 
         AKResp_ AKG ->
-            ( AK, errorDetectedFlash, Nothing )
+            ( AK, autheErrorFlash n, Nothing )
 
         KIResp_ KIYes ->
-            ( BF, NoFlash, Nothing )
+            -- ( BF, NoFlash, Nothing )
+            ( IT, NoFlash, Nothing )
 
         KIResp_ KINo ->
-            ( KI, errorDetectedFlash, Nothing )
+            ( KI, autheErrorFlash n, Nothing )
 
         BFResp_ BFYes ->
             ( Fail, NoFlash, Nothing )
@@ -173,13 +186,13 @@ understoodFlash =
                     text ""
 
 
-autheErrorFlash : Bool -> Flash
-autheErrorFlash cd =
+autheErrorFlash : N -> Flash
+autheErrorFlash n =
     Flash "red" <|
         \lang ->
             case lang of
                 JP ->
-                    text "authe"
+                    text <| name n ++ "じゃなさそうです。もう一度お試しください。"
 
                 EN ->
                     text "authe"
@@ -222,14 +235,14 @@ update msg model =
 
         GotResp resp ->
             let
-                ( view_, flash, mCd ) =
-                    redirect resp
+                ( view_, flash, mN ) =
+                    redirect model.n resp
             in
             { model
                 | view = view_
                 , past = view_ :: model.past
                 , flash = flash
-                , cd = Maybe.withDefault model.cd mCd
+                , n = Maybe.withDefault model.n mN
             }
                 |> cmds [ log resp ]
 
@@ -265,7 +278,7 @@ view model =
         [ class "grid h-screen place-items-center"
         ]
         ([ renderFlash model ]
-            ++ contentFor model.lang model.view
+            ++ contentFor model
             ++ [ hr_
                , backBtn model
                ]
@@ -327,8 +340,82 @@ hr_ =
 
 disclaimerCopy : List String
 disclaimerCopy =
-    [ "Disclaimer"
+    [ "マコ・アップへようこそ！"
+    , "開発がかっこいいと言われてくれたブラッドはこのちょっとしたバカバカしいアプリを作ってしまいました。"
+    , "ブラッドは日本語下手で、このアプリをめちゃくちゃ適当に作っちゃったから、そのようなものについて問題があったら、ご理解とご協力をお願いいたします。"
     ]
+
+
+cdCopy : List String
+cdCopy =
+    [ "ところで、ブラッドにはまだよく分からない日本語のことたくさんありますね。"
+    , "例えば、ちゃん付けのほうがなれなれしい？それとも名前だけ？という問題ですね。"
+    , "ですから、ブラッドからの呼び方を選んでください"
+    ]
+
+
+ssCopy : N -> List String
+ssCopy n =
+    [ "では、今このアプリを使っていらっしゃる者は本当に" ++ name n ++ "であることを確認しないといけません。"
+    , "いくつか質問を答えてください。"
+    , "出身は京都でございますか？"
+    ]
+
+
+akCopy : N -> List String
+akCopy n =
+    [ name n ++ "は四個のアイスの実を召し上がったらどんな味でしょうか？"
+    ]
+
+
+kiCopy : N -> List String
+kiCopy n =
+    [ name n ++ "の笑顔と笑いがめちゃくちゃかわいいですか？"
+    ]
+
+
+itCopy : N -> List String
+itCopy n =
+    [ "確かに" ++ name n ++ "でございますね。"
+    , "実はこのアプリの目的は簡単です。ブラッドの一つの質問の答えを" ++ name n ++ "から頂くことです。"
+    , "ブラッドと一緒に食事とか散歩とかハイキングとか行きたいでございますか？"
+    ]
+
+
+winCopy : N -> List String
+winCopy n =
+    [ "やった！！……あ、ちゃう。畏まりました。"
+    , "ブラッドに通知いたします。"
+    , "マコ・アプリを使ってくれてありがとうございました。"
+    , "以上です。"
+    ]
+
+
+type N
+    = Chan
+    | Namae
+    | San
+    | Sama
+    | Kakka
+
+
+name : N -> String
+name n =
+    case n of
+        Chan ->
+            "まこちゃん"
+
+        Namae ->
+            "まこ"
+
+        San ->
+            "まこさん"
+
+        Sama ->
+            "まこ様"
+
+        Kakka ->
+            "まこ閣下"
 
 
 renderCopy : List String -> List (Html Msg)
@@ -336,9 +423,15 @@ renderCopy =
     List.map (\line -> p [] [ text line ])
 
 
-contentFor : Lang -> View -> List (Html Msg)
-contentFor lang v =
+contentFor : Model -> List (Html Msg)
+contentFor model =
     let
+        lang =
+            model.lang
+
+        v =
+            model.view
+
         ( copy, btns ) =
             case lang of
                 JP ->
@@ -350,49 +443,53 @@ contentFor lang v =
                             )
 
                         CD ->
-                            ( [ "CD" ]
-                            , [ btn_ (CDResp_ CDC) "CDC"
-                              , btn_ (CDResp_ CDN) "CDN"
+                            ( cdCopy
+                            , [ btn_ (CDResp_ CDC) "まこちゃん"
+                              , btn_ (CDResp_ CDN) "まこ"
+                              , btn_ (CDResp_ CDSan) "まこさん"
+                              , btn_ (CDResp_ CDSama) "まこ様"
+                              , btn_ (CDResp_ CDKakka) "まこ閣下"
                               ]
                             )
 
                         SS ->
-                            ( [ "SS" ]
+                            ( ssCopy model.n
                             , [ btn_ (SSResp_ SSYes) "はい"
                               , btn_ (SSResp_ SSNo) "いいえ"
                               ]
                             )
 
                         AK ->
-                            ( [ "AK" ]
-                            , [ btn_ (AKResp_ AKM) "AKM"
-                              , btn_ (AKResp_ AKG) "AKG"
+                            ( akCopy model.n
+                            , [ btn_ (AKResp_ AKM) "マンゴ"
+                              , btn_ (AKResp_ AKG) "葡萄"
                               ]
                             )
 
                         KI ->
-                            ( [ "KI" ]
+                            ( kiCopy model.n
                             , [ btn_ (KIResp_ KIYes) "はい"
                               , btn_ (KIResp_ KINo) "いいえ"
                               ]
                             )
 
                         BF ->
-                            ( [ "BF" ]
+                            ( [ "--" ]
+                              -- ( [ "BF" ]
                             , [ btn_ (BFResp_ BFYes) "はい"
                               , btn_ (BFResp_ BFNo) "いいえ"
                               ]
                             )
 
                         IT ->
-                            ( [ "IT" ]
+                            ( itCopy model.n
                             , [ btn_ (ITResp_ ITYes) "はい"
                               , btn_ (ITResp_ ITNo) "いいえ"
                               ]
                             )
 
                         Win ->
-                            ( [ "Win" ]
+                            ( winCopy model.n
                             , []
                             )
 
