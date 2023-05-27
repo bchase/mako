@@ -271,6 +271,17 @@ backBtn model =
     a [ onClick Back ] [ txt ]
 
 
+btn : Resp -> String -> Html Msg
+btn resp txt =
+    button
+        [ type_ "button"
+        , class "text-rose-500 border border-rose-500 hover:bg-rose-500 hover:text-white active:bg-rose-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        , onClick <| GotResp resp
+        ]
+        [ text txt
+        ]
+
+
 copyFor : Lang -> View -> Html Msg
 copyFor lang v =
     case lang of
@@ -280,107 +291,55 @@ copyFor lang v =
                     div []
                         [ p [] [ text "Disclaimer" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| DisclaimerResp_ DisclaimerYes ]
-                                [ text "承知"
-                                ]
-                            ]
+                        , p [] [ btn (DisclaimerResp_ DisclaimerYes) "承知" ]
                         ]
 
                 CD ->
                     div []
                         [ p [] [ text "CD" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| CDResp_ CDC ]
-                                [ text "CDC"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| CDResp_ CDN ]
-                                [ text "CDN"
-                                ]
-                            ]
+                        , p [] [ btn (CDResp_ CDC) "CDC" ]
+                        , p [] [ btn (CDResp_ CDN) "CDN" ]
                         ]
 
                 SS ->
                     div []
                         [ p [] [ text "SS" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| SSResp_ SSYes ]
-                                [ text "はい"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| SSResp_ SSNo ]
-                                [ text "いいえ"
-                                ]
-                            ]
+                        , p [] [ btn (SSResp_ SSYes) "はい" ]
+                        , p [] [ btn (SSResp_ SSNo) "いいえ" ]
                         ]
 
                 AK ->
                     div []
                         [ p [] [ text "AK" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| AKResp_ AKM ]
-                                [ text "AKM"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| AKResp_ AKG ]
-                                [ text "AKG"
-                                ]
-                            ]
+                        , p [] [ btn (AKResp_ AKM) "AKM" ]
+                        , p [] [ btn (AKResp_ AKG) "AKG" ]
                         ]
 
                 KI ->
                     div []
                         [ p [] [ text "KI" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| KIResp_ KIYes ]
-                                [ text "はい"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| KIResp_ KINo ]
-                                [ text "いいえ"
-                                ]
-                            ]
+                        , p [] [ btn (KIResp_ KIYes) "はい" ]
+                        , p [] [ btn (KIResp_ KINo) "いいえ" ]
                         ]
 
                 BF ->
                     div []
                         [ p [] [ text "BF" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| BFResp_ BFYes ]
-                                [ text "はい"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| BFResp_ BFNo ]
-                                [ text "いいえ"
-                                ]
-                            ]
+                        , p [] [ btn (BFResp_ BFYes) "はい" ]
+                        , p [] [ btn (BFResp_ BFNo) "いいえ" ]
                         ]
 
                 IT ->
                     div []
                         [ p [] [ text "IT" ]
                         , hr [] []
-                        , p []
-                            [ a [ onClick <| GotResp <| ITResp_ ITYes ]
-                                [ text "はい"
-                                ]
-                            ]
-                        , p []
-                            [ a [ onClick <| GotResp <| ITResp_ ITNo ]
-                                [ text "いいえ"
-                                ]
-                            ]
+                        , p [] [ btn (ITResp_ ITYes) "はい" ]
+                        , p [] [ btn (ITResp_ ITNo) "いいえ" ]
                         ]
 
                 Win ->
