@@ -71,7 +71,7 @@ type View
 
 type Flash
     = NoFlash
-    | Flash (Lang -> Html Msg)
+    | Flash String (Lang -> Html Msg)
 
 
 type DisclaimerResp
@@ -163,19 +163,31 @@ redirect resp =
 
 understoodFlash : Flash
 understoodFlash =
-    Flash <|
+    Flash "green" <|
         \lang ->
             case lang of
                 JP ->
-                    text ""
+                    text "畏まりました"
 
                 EN ->
                     text ""
 
 
+autheErrorFlash : Bool -> Flash
+autheErrorFlash cd =
+    Flash "red" <|
+        \lang ->
+            case lang of
+                JP ->
+                    text "authe"
+
+                EN ->
+                    text "authe"
+
+
 errorDetectedFlash : Flash
 errorDetectedFlash =
-    Flash <|
+    Flash "red" <|
         \lang ->
             case lang of
                 JP ->
@@ -266,8 +278,10 @@ renderFlash model =
         NoFlash ->
             text ""
 
-        Flash f ->
-            div []
+        Flash color f ->
+            div
+                [ class <| "bg-" ++ color ++ "-200 text-" ++ color ++ "-900 rounded-lg shadow-md p-6 pr-10"
+                ]
                 [ f model.lang
                 ]
 
