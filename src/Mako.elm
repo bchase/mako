@@ -325,95 +325,105 @@ hr_ =
         ]
 
 
+disclaimerCopy : List String
+disclaimerCopy =
+    [ "Disclaimer"
+    ]
+
+
+renderCopy : List String -> List (Html Msg)
+renderCopy =
+    List.map (\line -> p [] [ text line ])
+
+
 contentFor : Lang -> View -> List (Html Msg)
 contentFor lang v =
-    case lang of
-        JP ->
-            case v of
-                Disclaimer ->
-                    [ p [] [ text "Disclaimer" ]
-                    , hr_
-                    , btn_ (DisclaimerResp_ DisclaimerYes) "承知"
-                    ]
+    let
+        ( copy, btns ) =
+            case lang of
+                JP ->
+                    case v of
+                        Disclaimer ->
+                            ( disclaimerCopy
+                            , [ btn_ (DisclaimerResp_ DisclaimerYes) "承知"
+                              ]
+                            )
 
-                CD ->
-                    [ p [] [ text "CD" ]
-                    , hr_
-                    , btn_ (CDResp_ CDC) "CDC"
-                    , btn_ (CDResp_ CDN) "CDN"
-                    ]
+                        CD ->
+                            ( [ "CD" ]
+                            , [ btn_ (CDResp_ CDC) "CDC"
+                              , btn_ (CDResp_ CDN) "CDN"
+                              ]
+                            )
 
-                SS ->
-                    [ p [] [ text "SS" ]
-                    , hr_
-                    , btn_ (SSResp_ SSYes) "はい"
-                    , btn_ (SSResp_ SSNo) "いいえ"
-                    ]
+                        SS ->
+                            ( [ "SS" ]
+                            , [ btn_ (SSResp_ SSYes) "はい"
+                              , btn_ (SSResp_ SSNo) "いいえ"
+                              ]
+                            )
 
-                AK ->
-                    [ p [] [ text "AK" ]
-                    , hr_
-                    , btn_ (AKResp_ AKM) "AKM"
-                    , btn_ (AKResp_ AKG) "AKG"
-                    ]
+                        AK ->
+                            ( [ "AK" ]
+                            , [ btn_ (AKResp_ AKM) "AKM"
+                              , btn_ (AKResp_ AKG) "AKG"
+                              ]
+                            )
 
-                KI ->
-                    [ p [] [ text "KI" ]
-                    , hr_
-                    , btn_ (KIResp_ KIYes) "はい"
-                    , btn_ (KIResp_ KINo) "いいえ"
-                    ]
+                        KI ->
+                            ( [ "KI" ]
+                            , [ btn_ (KIResp_ KIYes) "はい"
+                              , btn_ (KIResp_ KINo) "いいえ"
+                              ]
+                            )
 
-                BF ->
-                    [ p [] [ text "BF" ]
-                    , hr_
-                    , btn_ (BFResp_ BFYes) "はい"
-                    , btn_ (BFResp_ BFNo) "いいえ"
-                    ]
+                        BF ->
+                            ( [ "BF" ]
+                            , [ btn_ (BFResp_ BFYes) "はい"
+                              , btn_ (BFResp_ BFNo) "いいえ"
+                              ]
+                            )
 
-                IT ->
-                    [ p [] [ text "IT" ]
-                    , hr_
-                    , btn_ (ITResp_ ITYes) "はい"
-                    , btn_ (ITResp_ ITNo) "いいえ"
-                    ]
+                        IT ->
+                            ( [ "IT" ]
+                            , [ btn_ (ITResp_ ITYes) "はい"
+                              , btn_ (ITResp_ ITNo) "いいえ"
+                              ]
+                            )
 
-                Win ->
-                    [ p [] [ text "Win" ]
-                    ]
+                        Win ->
+                            ( [ "Win" ]
+                            , []
+                            )
 
-                Fail ->
-                    [ p [] [ text "Fail" ]
-                    ]
+                        Fail ->
+                            ( [ "Fail" ]
+                            , []
+                            )
 
-        EN ->
-            case v of
-                Disclaimer ->
-                    []
-
-                SS ->
-                    []
-
-                AK ->
-                    []
-
-                KI ->
-                    []
-
-                CD ->
-                    []
-
-                BF ->
-                    []
-
-                IT ->
-                    []
-
-                Win ->
-                    []
-
-                Fail ->
-                    []
+                EN ->
+                    -- case v of
+                    --     Disclaimer ->
+                    --         []
+                    --     SS ->
+                    --         []
+                    --     AK ->
+                    --         []
+                    --     KI ->
+                    --         []
+                    --     CD ->
+                    --         []
+                    --     BF ->
+                    --         []
+                    --     IT ->
+                    --         []
+                    --     Win ->
+                    --         []
+                    --     Fail ->
+                    --         []
+                    ( [], [] )
+    in
+    renderCopy copy ++ [ hr_ ] ++ btns
 
 
 
