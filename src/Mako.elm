@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Mako exposing (main)
 
 import Browser
 import Html exposing (..)
@@ -18,7 +18,7 @@ type Lang
 
 type alias Model =
     { view : View
-    , prev : View
+    , past : List View
     , lang : Lang
     , flash : Flash
     , cd : Bool
@@ -33,7 +33,7 @@ init flags =
 initModel : Flags -> Model
 initModel flags =
     { view = Disclaimer
-    , prev = Disclaimer
+    , past = []
     , lang = JP
     , flash = NoFlash
     , cd = False
@@ -192,7 +192,18 @@ update msg model =
             just model
 
         Back ->
-            just { model | view = model.prev }
+            let
+                prev =
+                    model.past
+                        |> List.head
+                        |> Maybe.withDefault Disclaimer
+
+                past =
+                    model.past
+                        |> List.tail
+                        |> Maybe.withDefault []
+            in
+            just { model | view = prev, past = past }
 
         SetLang lang ->
             just { model | lang = lang }
@@ -204,7 +215,7 @@ update msg model =
             in
             { model
                 | view = view_
-                , prev = model.view
+                , past = view_ :: model.past
                 , flash = flash
                 , cd = Maybe.withDefault model.cd mCd
             }
