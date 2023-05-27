@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Main</title><script src="https://cdn.tailwindcss.com"></script>
+  <title>Mako</title><script src="https://cdn.tailwindcss.com"></script>
   <style>body { padding: 0; margin: 0; }</style>
 </head>
 
@@ -5349,30 +5349,39 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $author$project$Main$cmds = F2(
+var $author$project$Mako$cmds = F2(
 	function (cs, model) {
 		return _Utils_Tuple2(
 			model,
 			$elm$core$Platform$Cmd$batch(cs));
 	});
-var $author$project$Main$Disclaimer = {$: 'Disclaimer'};
-var $author$project$Main$JP = {$: 'JP'};
-var $author$project$Main$NoFlash = {$: 'NoFlash'};
-var $author$project$Main$initModel = function (flags) {
-	return {cd: false, flash: $author$project$Main$NoFlash, lang: $author$project$Main$JP, prev: $author$project$Main$Disclaimer, view: $author$project$Main$Disclaimer};
+var $author$project$Mako$Disclaimer = {$: 'Disclaimer'};
+var $author$project$Mako$JP = {$: 'JP'};
+var $author$project$Mako$NoFlash = {$: 'NoFlash'};
+var $author$project$Mako$initModel = function (flags) {
+	return {cd: false, flash: $author$project$Mako$NoFlash, lang: $author$project$Mako$JP, past: _List_Nil, view: $author$project$Mako$Disclaimer};
 };
-var $author$project$Main$init = function (flags) {
+var $author$project$Mako$init = function (flags) {
 	return A2(
-		$author$project$Main$cmds,
+		$author$project$Mako$cmds,
 		_List_Nil,
-		$author$project$Main$initModel(flags));
+		$author$project$Mako$initModel(flags));
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $author$project$Main$subscriptions = function (model) {
+var $author$project$Mako$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$batch(_List_Nil);
 };
-var $author$project$Main$just = $author$project$Main$cmds(_List_Nil);
-var $author$project$Main$NoOp = {$: 'NoOp'};
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Mako$just = $author$project$Mako$cmds(_List_Nil);
+var $author$project$Mako$NoOp = {$: 'NoOp'};
 var $elm$core$Basics$always = F2(
 	function (a, _v0) {
 		return a;
@@ -6155,33 +6164,36 @@ var $elm$http$Http$post = function (r) {
 	return $elm$http$Http$request(
 		{body: r.body, expect: r.expect, headers: _List_Nil, method: 'POST', timeout: $elm$core$Maybe$Nothing, tracker: $elm$core$Maybe$Nothing, url: r.url});
 };
-var $author$project$Main$rootPath = 'http://localhost:5555';
+var $author$project$Mako$rootPath = 'http://localhost:5555';
 var $elm$http$Http$stringBody = _Http_pair;
 var $elm$core$Debug$toString = _Debug_toString;
-var $author$project$Main$log = function (resp) {
+var $author$project$Mako$log = function (resp) {
 	var handler = $elm$http$Http$expectString(
-		$elm$core$Basics$always($author$project$Main$NoOp));
+		$elm$core$Basics$always($author$project$Mako$NoOp));
 	var body = A2(
 		$elm$http$Http$stringBody,
 		'text/plain',
 		$elm$core$Debug$toString(resp));
 	return $elm$http$Http$post(
-		{body: body, expect: handler, url: $author$project$Main$rootPath});
+		{body: body, expect: handler, url: $author$project$Mako$rootPath});
 };
-var $author$project$Main$AK = {$: 'AK'};
-var $author$project$Main$BF = {$: 'BF'};
-var $author$project$Main$CD = {$: 'CD'};
-var $author$project$Main$Fail = {$: 'Fail'};
-var $author$project$Main$IT = {$: 'IT'};
-var $author$project$Main$KI = {$: 'KI'};
-var $author$project$Main$SS = {$: 'SS'};
-var $author$project$Main$Win = {$: 'Win'};
-var $author$project$Main$Flash = function (a) {
-	return {$: 'Flash', a: a};
-};
+var $author$project$Mako$AK = {$: 'AK'};
+var $author$project$Mako$BF = {$: 'BF'};
+var $author$project$Mako$CD = {$: 'CD'};
+var $author$project$Mako$Fail = {$: 'Fail'};
+var $author$project$Mako$IT = {$: 'IT'};
+var $author$project$Mako$KI = {$: 'KI'};
+var $author$project$Mako$SS = {$: 'SS'};
+var $author$project$Mako$Win = {$: 'Win'};
+var $author$project$Mako$Flash = F2(
+	function (a, b) {
+		return {$: 'Flash', a: a, b: b};
+	});
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$errorDetectedFlash = $author$project$Main$Flash(
+var $author$project$Mako$errorDetectedFlash = A2(
+	$author$project$Mako$Flash,
+	'red',
 	function (lang) {
 		if (lang.$ === 'JP') {
 			return $elm$html$Html$text('err');
@@ -6189,73 +6201,84 @@ var $author$project$Main$errorDetectedFlash = $author$project$Main$Flash(
 			return $elm$html$Html$text('err');
 		}
 	});
-var $author$project$Main$understoodFlash = $author$project$Main$Flash(
+var $author$project$Mako$understoodFlash = A2(
+	$author$project$Mako$Flash,
+	'green',
 	function (lang) {
 		if (lang.$ === 'JP') {
-			return $elm$html$Html$text('');
+			return $elm$html$Html$text('畏まりました');
 		} else {
 			return $elm$html$Html$text('');
 		}
 	});
-var $author$project$Main$redirect = function (resp) {
+var $author$project$Mako$redirect = function (resp) {
 	switch (resp.$) {
 		case 'DisclaimerResp_':
 			var _v1 = resp.a;
-			return _Utils_Tuple3($author$project$Main$CD, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+			return _Utils_Tuple3($author$project$Mako$CD, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 		case 'CDResp_':
 			if (resp.a.$ === 'CDC') {
 				var _v2 = resp.a;
 				return _Utils_Tuple3(
-					$author$project$Main$SS,
-					$author$project$Main$understoodFlash,
+					$author$project$Mako$SS,
+					$author$project$Mako$understoodFlash,
 					$elm$core$Maybe$Just(true));
 			} else {
 				var _v3 = resp.a;
 				return _Utils_Tuple3(
-					$author$project$Main$SS,
-					$author$project$Main$understoodFlash,
+					$author$project$Mako$SS,
+					$author$project$Mako$understoodFlash,
 					$elm$core$Maybe$Just(false));
 			}
 		case 'SSResp_':
 			if (resp.a.$ === 'SSYes') {
 				var _v4 = resp.a;
-				return _Utils_Tuple3($author$project$Main$AK, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$AK, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			} else {
 				var _v5 = resp.a;
-				return _Utils_Tuple3($author$project$Main$SS, $author$project$Main$errorDetectedFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$SS, $author$project$Mako$errorDetectedFlash, $elm$core$Maybe$Nothing);
 			}
 		case 'AKResp_':
 			if (resp.a.$ === 'AKM') {
 				var _v6 = resp.a;
-				return _Utils_Tuple3($author$project$Main$KI, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$KI, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			} else {
 				var _v7 = resp.a;
-				return _Utils_Tuple3($author$project$Main$AK, $author$project$Main$errorDetectedFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$AK, $author$project$Mako$errorDetectedFlash, $elm$core$Maybe$Nothing);
 			}
 		case 'KIResp_':
 			if (resp.a.$ === 'KIYes') {
 				var _v8 = resp.a;
-				return _Utils_Tuple3($author$project$Main$BF, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$BF, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			} else {
 				var _v9 = resp.a;
-				return _Utils_Tuple3($author$project$Main$KI, $author$project$Main$errorDetectedFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$KI, $author$project$Mako$errorDetectedFlash, $elm$core$Maybe$Nothing);
 			}
 		case 'BFResp_':
 			if (resp.a.$ === 'BFYes') {
 				var _v10 = resp.a;
-				return _Utils_Tuple3($author$project$Main$Fail, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$Fail, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			} else {
 				var _v11 = resp.a;
-				return _Utils_Tuple3($author$project$Main$IT, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$IT, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			}
 		default:
 			if (resp.a.$ === 'ITYes') {
 				var _v12 = resp.a;
-				return _Utils_Tuple3($author$project$Main$Win, $author$project$Main$NoFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$Win, $author$project$Mako$NoFlash, $elm$core$Maybe$Nothing);
 			} else {
 				var _v13 = resp.a;
-				return _Utils_Tuple3($author$project$Main$IT, $author$project$Main$errorDetectedFlash, $elm$core$Maybe$Nothing);
+				return _Utils_Tuple3($author$project$Mako$IT, $author$project$Mako$errorDetectedFlash, $elm$core$Maybe$Nothing);
 			}
+	}
+};
+var $elm$core$List$tail = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(xs);
+	} else {
+		return $elm$core$Maybe$Nothing;
 	}
 };
 var $elm$core$Maybe$withDefault = F2(
@@ -6267,45 +6290,53 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Main$update = F2(
+var $author$project$Mako$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'NoOp':
-				return $author$project$Main$just(model);
+				return $author$project$Mako$just(model);
 			case 'Back':
-				return $author$project$Main$just(
+				var prev = A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Mako$Disclaimer,
+					$elm$core$List$head(model.past));
+				var past = A2(
+					$elm$core$Maybe$withDefault,
+					_List_Nil,
+					$elm$core$List$tail(model.past));
+				return $author$project$Mako$just(
 					_Utils_update(
 						model,
-						{view: model.prev}));
+						{past: past, view: prev}));
 			case 'SetLang':
 				var lang = msg.a;
-				return $author$project$Main$just(
+				return $author$project$Mako$just(
 					_Utils_update(
 						model,
 						{lang: lang}));
 			default:
 				var resp = msg.a;
-				var _v1 = $author$project$Main$redirect(resp);
+				var _v1 = $author$project$Mako$redirect(resp);
 				var view_ = _v1.a;
 				var flash = _v1.b;
 				var mCd = _v1.c;
 				return A2(
-					$author$project$Main$cmds,
+					$author$project$Mako$cmds,
 					_List_fromArray(
 						[
-							$author$project$Main$log(resp)
+							$author$project$Mako$log(resp)
 						]),
 					_Utils_update(
 						model,
 						{
 							cd: A2($elm$core$Maybe$withDefault, model.cd, mCd),
 							flash: flash,
-							prev: model.view,
+							past: A2($elm$core$List$cons, view_, model.past),
 							view: view_
 						}));
 		}
 	});
-var $author$project$Main$Back = {$: 'Back'};
+var $author$project$Mako$Back = {$: 'Back'};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -6334,7 +6365,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $author$project$Main$btn = F3(
+var $author$project$Mako$btn = F3(
 	function (color, msg, txt) {
 		return A2(
 			$elm$html$Html$button,
@@ -6349,7 +6380,7 @@ var $author$project$Main$btn = F3(
 					$elm$html$Html$text(txt)
 				]));
 	});
-var $author$project$Main$backBtn = function (model) {
+var $author$project$Mako$backBtn = function (model) {
 	var txt = function () {
 		var _v0 = model.lang;
 		if (_v0.$ === 'EN') {
@@ -6358,57 +6389,57 @@ var $author$project$Main$backBtn = function (model) {
 			return '戻る';
 		}
 	}();
-	return A3($author$project$Main$btn, 'black', $author$project$Main$Back, txt);
+	return A3($author$project$Mako$btn, 'black', $author$project$Mako$Back, txt);
 };
-var $author$project$Main$AKG = {$: 'AKG'};
-var $author$project$Main$AKM = {$: 'AKM'};
-var $author$project$Main$AKResp_ = function (a) {
+var $author$project$Mako$AKG = {$: 'AKG'};
+var $author$project$Mako$AKM = {$: 'AKM'};
+var $author$project$Mako$AKResp_ = function (a) {
 	return {$: 'AKResp_', a: a};
 };
-var $author$project$Main$BFNo = {$: 'BFNo'};
-var $author$project$Main$BFResp_ = function (a) {
+var $author$project$Mako$BFNo = {$: 'BFNo'};
+var $author$project$Mako$BFResp_ = function (a) {
 	return {$: 'BFResp_', a: a};
 };
-var $author$project$Main$BFYes = {$: 'BFYes'};
-var $author$project$Main$CDC = {$: 'CDC'};
-var $author$project$Main$CDN = {$: 'CDN'};
-var $author$project$Main$CDResp_ = function (a) {
+var $author$project$Mako$BFYes = {$: 'BFYes'};
+var $author$project$Mako$CDC = {$: 'CDC'};
+var $author$project$Mako$CDN = {$: 'CDN'};
+var $author$project$Mako$CDResp_ = function (a) {
 	return {$: 'CDResp_', a: a};
 };
-var $author$project$Main$DisclaimerResp_ = function (a) {
+var $author$project$Mako$DisclaimerResp_ = function (a) {
 	return {$: 'DisclaimerResp_', a: a};
 };
-var $author$project$Main$DisclaimerYes = {$: 'DisclaimerYes'};
-var $author$project$Main$ITNo = {$: 'ITNo'};
-var $author$project$Main$ITResp_ = function (a) {
+var $author$project$Mako$DisclaimerYes = {$: 'DisclaimerYes'};
+var $author$project$Mako$ITNo = {$: 'ITNo'};
+var $author$project$Mako$ITResp_ = function (a) {
 	return {$: 'ITResp_', a: a};
 };
-var $author$project$Main$ITYes = {$: 'ITYes'};
-var $author$project$Main$KINo = {$: 'KINo'};
-var $author$project$Main$KIResp_ = function (a) {
+var $author$project$Mako$ITYes = {$: 'ITYes'};
+var $author$project$Mako$KINo = {$: 'KINo'};
+var $author$project$Mako$KIResp_ = function (a) {
 	return {$: 'KIResp_', a: a};
 };
-var $author$project$Main$KIYes = {$: 'KIYes'};
-var $author$project$Main$SSNo = {$: 'SSNo'};
-var $author$project$Main$SSResp_ = function (a) {
+var $author$project$Mako$KIYes = {$: 'KIYes'};
+var $author$project$Mako$SSNo = {$: 'SSNo'};
+var $author$project$Mako$SSResp_ = function (a) {
 	return {$: 'SSResp_', a: a};
 };
-var $author$project$Main$SSYes = {$: 'SSYes'};
-var $author$project$Main$GotResp = function (a) {
+var $author$project$Mako$SSYes = {$: 'SSYes'};
+var $author$project$Mako$GotResp = function (a) {
 	return {$: 'GotResp', a: a};
 };
-var $author$project$Main$btn_ = F2(
+var $author$project$Mako$btn_ = F2(
 	function (resp, txt) {
 		return A3(
-			$author$project$Main$btn,
+			$author$project$Mako$btn,
 			'rose',
-			$author$project$Main$GotResp(resp),
+			$author$project$Mako$GotResp(resp),
 			txt);
 	});
 var $elm$html$Html$br = _VirtualDom_node('br');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$hr = _VirtualDom_node('hr');
-var $author$project$Main$hr_ = A2(
+var $author$project$Mako$hr_ = A2(
 	$elm$html$Html$div,
 	_List_Nil,
 	_List_fromArray(
@@ -6418,7 +6449,7 @@ var $author$project$Main$hr_ = A2(
 			A2($elm$html$Html$br, _List_Nil, _List_Nil)
 		]));
 var $elm$html$Html$p = _VirtualDom_node('p');
-var $author$project$Main$contentFor = F2(
+var $author$project$Mako$contentFor = F2(
 	function (lang, v) {
 		if (lang.$ === 'JP') {
 			switch (v.$) {
@@ -6432,10 +6463,10 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('Disclaimer')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$DisclaimerResp_($author$project$Main$DisclaimerYes),
+							$author$project$Mako$btn_,
+							$author$project$Mako$DisclaimerResp_($author$project$Mako$DisclaimerYes),
 							'承知')
 						]);
 				case 'CD':
@@ -6448,14 +6479,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('CD')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$CDResp_($author$project$Main$CDC),
+							$author$project$Mako$btn_,
+							$author$project$Mako$CDResp_($author$project$Mako$CDC),
 							'CDC'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$CDResp_($author$project$Main$CDN),
+							$author$project$Mako$btn_,
+							$author$project$Mako$CDResp_($author$project$Mako$CDN),
 							'CDN')
 						]);
 				case 'SS':
@@ -6468,14 +6499,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('SS')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$SSResp_($author$project$Main$SSYes),
+							$author$project$Mako$btn_,
+							$author$project$Mako$SSResp_($author$project$Mako$SSYes),
 							'はい'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$SSResp_($author$project$Main$SSNo),
+							$author$project$Mako$btn_,
+							$author$project$Mako$SSResp_($author$project$Mako$SSNo),
 							'いいえ')
 						]);
 				case 'AK':
@@ -6488,14 +6519,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('AK')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$AKResp_($author$project$Main$AKM),
+							$author$project$Mako$btn_,
+							$author$project$Mako$AKResp_($author$project$Mako$AKM),
 							'AKM'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$AKResp_($author$project$Main$AKG),
+							$author$project$Mako$btn_,
+							$author$project$Mako$AKResp_($author$project$Mako$AKG),
 							'AKG')
 						]);
 				case 'KI':
@@ -6508,14 +6539,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('KI')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$KIResp_($author$project$Main$KIYes),
+							$author$project$Mako$btn_,
+							$author$project$Mako$KIResp_($author$project$Mako$KIYes),
 							'はい'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$KIResp_($author$project$Main$KINo),
+							$author$project$Mako$btn_,
+							$author$project$Mako$KIResp_($author$project$Mako$KINo),
 							'いいえ')
 						]);
 				case 'BF':
@@ -6528,14 +6559,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('BF')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$BFResp_($author$project$Main$BFYes),
+							$author$project$Mako$btn_,
+							$author$project$Mako$BFResp_($author$project$Mako$BFYes),
 							'はい'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$BFResp_($author$project$Main$BFNo),
+							$author$project$Mako$btn_,
+							$author$project$Mako$BFResp_($author$project$Mako$BFNo),
 							'いいえ')
 						]);
 				case 'IT':
@@ -6548,14 +6579,14 @@ var $author$project$Main$contentFor = F2(
 								[
 									$elm$html$Html$text('IT')
 								])),
-							$author$project$Main$hr_,
+							$author$project$Mako$hr_,
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$ITResp_($author$project$Main$ITYes),
+							$author$project$Mako$btn_,
+							$author$project$Mako$ITResp_($author$project$Mako$ITYes),
 							'はい'),
 							A2(
-							$author$project$Main$btn_,
-							$author$project$Main$ITResp_($author$project$Main$ITNo),
+							$author$project$Mako$btn_,
+							$author$project$Mako$ITResp_($author$project$Mako$ITNo),
 							'いいえ')
 						]);
 				case 'Win':
@@ -6604,22 +6635,26 @@ var $author$project$Main$contentFor = F2(
 			}
 		}
 	});
-var $author$project$Main$renderFlash = function (model) {
+var $author$project$Mako$renderFlash = function (model) {
 	var _v0 = model.flash;
 	if (_v0.$ === 'NoFlash') {
 		return $elm$html$Html$text('');
 	} else {
-		var f = _v0.a;
+		var color = _v0.a;
+		var f = _v0.b;
 		return A2(
 			$elm$html$Html$div,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('bg-' + (color + ('-200 text-' + (color + '-900 rounded-lg shadow-md p-6 pr-10'))))
+				]),
 			_List_fromArray(
 				[
 					f(model.lang)
 				]));
 	}
 };
-var $author$project$Main$view = function (model) {
+var $author$project$Mako$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6629,22 +6664,22 @@ var $author$project$Main$view = function (model) {
 		_Utils_ap(
 			_List_fromArray(
 				[
-					$author$project$Main$renderFlash(model)
+					$author$project$Mako$renderFlash(model)
 				]),
 			_Utils_ap(
-				A2($author$project$Main$contentFor, model.lang, model.view),
+				A2($author$project$Mako$contentFor, model.lang, model.view),
 				_List_fromArray(
 					[
-						$author$project$Main$hr_,
-						$author$project$Main$backBtn(model)
+						$author$project$Mako$hr_,
+						$author$project$Mako$backBtn(model)
 					]))));
 };
-var $author$project$Main$main = $elm$browser$Browser$element(
-	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
-_Platform_export({'Main':{'init':$author$project$Main$main(
+var $author$project$Mako$main = $elm$browser$Browser$element(
+	{init: $author$project$Mako$init, subscriptions: $author$project$Mako$subscriptions, update: $author$project$Mako$update, view: $author$project$Mako$view});
+_Platform_export({'Mako':{'init':$author$project$Mako$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
 
-  var app = Elm.Main.init({ node: document.getElementById("elm") });
+  var app = Elm.Mako.init({ node: document.getElementById("elm") });
 }
 catch (e)
 {
