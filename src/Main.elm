@@ -238,11 +238,15 @@ rootPath =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ renderFlash model
-        , copyFor model.lang model.view
-        , backBtn model
+    div
+        [ class "grid h-screen place-items-center"
         ]
+        ([ renderFlash model ]
+            ++ contentFor model.lang model.view
+            ++ [ hr_
+               , backBtn model
+               ]
+        )
 
 
 renderFlash : Model -> Html Msg
@@ -263,123 +267,128 @@ backBtn model =
         txt =
             case model.lang of
                 EN ->
-                    text "Back"
+                    "Back"
 
                 JP ->
-                    text "戻る"
+                    "戻る"
     in
-    a [ onClick Back ] [ txt ]
+    btn "black" Back txt
 
 
-btn : Resp -> String -> Html Msg
-btn resp txt =
+btn_ : Resp -> String -> Html Msg
+btn_ resp txt =
+    btn "rose" (GotResp resp) txt
+
+
+btn : String -> Msg -> String -> Html Msg
+btn color msg txt =
     button
         [ type_ "button"
-        , class "text-rose-500 border border-rose-500 hover:bg-rose-500 hover:text-white active:bg-rose-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        , onClick <| GotResp resp
+        , class <| "text-" ++ color ++ "-500 border border-" ++ color ++ "-500 hover:bg-" ++ color ++ "-500 hover:text-white active:bg-" ++ color ++ "-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-2/5"
+        , onClick msg
         ]
         [ text txt
         ]
 
 
-copyFor : Lang -> View -> Html Msg
-copyFor lang v =
+hr_ : Html Msg
+hr_ =
+    div []
+        [ br [] []
+        , hr [] []
+        , br [] []
+        ]
+
+
+contentFor : Lang -> View -> List (Html Msg)
+contentFor lang v =
     case lang of
         JP ->
             case v of
                 Disclaimer ->
-                    div []
-                        [ p [] [ text "Disclaimer" ]
-                        , hr [] []
-                        , p [] [ btn (DisclaimerResp_ DisclaimerYes) "承知" ]
-                        ]
+                    [ p [] [ text "Disclaimer" ]
+                    , hr_
+                    , btn_ (DisclaimerResp_ DisclaimerYes) "承知"
+                    ]
 
                 CD ->
-                    div []
-                        [ p [] [ text "CD" ]
-                        , hr [] []
-                        , p [] [ btn (CDResp_ CDC) "CDC" ]
-                        , p [] [ btn (CDResp_ CDN) "CDN" ]
-                        ]
+                    [ p [] [ text "CD" ]
+                    , hr_
+                    , btn_ (CDResp_ CDC) "CDC"
+                    , btn_ (CDResp_ CDN) "CDN"
+                    ]
 
                 SS ->
-                    div []
-                        [ p [] [ text "SS" ]
-                        , hr [] []
-                        , p [] [ btn (SSResp_ SSYes) "はい" ]
-                        , p [] [ btn (SSResp_ SSNo) "いいえ" ]
-                        ]
+                    [ p [] [ text "SS" ]
+                    , hr_
+                    , btn_ (SSResp_ SSYes) "はい"
+                    , btn_ (SSResp_ SSNo) "いいえ"
+                    ]
 
                 AK ->
-                    div []
-                        [ p [] [ text "AK" ]
-                        , hr [] []
-                        , p [] [ btn (AKResp_ AKM) "AKM" ]
-                        , p [] [ btn (AKResp_ AKG) "AKG" ]
-                        ]
+                    [ p [] [ text "AK" ]
+                    , hr_
+                    , btn_ (AKResp_ AKM) "AKM"
+                    , btn_ (AKResp_ AKG) "AKG"
+                    ]
 
                 KI ->
-                    div []
-                        [ p [] [ text "KI" ]
-                        , hr [] []
-                        , p [] [ btn (KIResp_ KIYes) "はい" ]
-                        , p [] [ btn (KIResp_ KINo) "いいえ" ]
-                        ]
+                    [ p [] [ text "KI" ]
+                    , hr_
+                    , btn_ (KIResp_ KIYes) "はい"
+                    , btn_ (KIResp_ KINo) "いいえ"
+                    ]
 
                 BF ->
-                    div []
-                        [ p [] [ text "BF" ]
-                        , hr [] []
-                        , p [] [ btn (BFResp_ BFYes) "はい" ]
-                        , p [] [ btn (BFResp_ BFNo) "いいえ" ]
-                        ]
+                    [ p [] [ text "BF" ]
+                    , hr_
+                    , btn_ (BFResp_ BFYes) "はい"
+                    , btn_ (BFResp_ BFNo) "いいえ"
+                    ]
 
                 IT ->
-                    div []
-                        [ p [] [ text "IT" ]
-                        , hr [] []
-                        , p [] [ btn (ITResp_ ITYes) "はい" ]
-                        , p [] [ btn (ITResp_ ITNo) "いいえ" ]
-                        ]
+                    [ p [] [ text "IT" ]
+                    , hr_
+                    , btn_ (ITResp_ ITYes) "はい"
+                    , btn_ (ITResp_ ITNo) "いいえ"
+                    ]
 
                 Win ->
-                    div []
-                        [ p [] [ text "Win" ]
-                        ]
+                    [ p [] [ text "Win" ]
+                    ]
 
                 Fail ->
-                    div []
-                        [ p [] [ text "Fail" ]
-                        ]
+                    [ p [] [ text "Fail" ]
+                    ]
 
         EN ->
             case v of
                 Disclaimer ->
-                    text ""
+                    []
 
                 SS ->
-                    text ""
+                    []
 
                 AK ->
-                    text ""
+                    []
 
                 KI ->
-                    text ""
+                    []
 
                 CD ->
-                    text ""
+                    []
 
                 BF ->
-                    text ""
+                    []
 
                 IT ->
-                    text ""
+                    []
 
                 Win ->
-                    text ""
+                    []
 
                 Fail ->
-                    text ""
+                    []
 
 
 
