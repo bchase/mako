@@ -275,7 +275,7 @@ rootPath =
 view : Model -> Html Msg
 view model =
     div
-        [ class "grid h-screen place-items-center text-3xl"
+        [ class "grid h-screen place-items-center text-3xl p-10"
         ]
         ([ renderFlash model ]
             ++ contentFor model
@@ -315,7 +315,7 @@ backBtn model =
 
 btn_ : Resp -> String -> Html Msg
 btn_ resp txt =
-    btn "rose" (GotResp resp) txt
+    btn "sky" (GotResp resp) txt
 
 
 btn : String -> Msg -> String -> Html Msg
@@ -386,7 +386,7 @@ winCopy : N -> List String
 winCopy n =
     [ "やった！！……あ、ちゃう。畏まりました。"
     , "ブラッドに通知いたします。"
-    , "マコ・アプリを使ってくれてありがとうございました。"
+    , "マコ・アップを使ってくれてありがとうございました。"
     , "以上です。"
     ]
 
