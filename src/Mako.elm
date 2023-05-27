@@ -265,7 +265,7 @@ log resp =
 
 rootPath : String
 rootPath =
-    "http://localhost:5555"
+    "https://mako-app.herokuapp.com"
 
 
 
@@ -275,7 +275,7 @@ rootPath =
 view : Model -> Html Msg
 view model =
     div
-        [ class "grid h-screen place-items-center"
+        [ class "grid h-screen place-items-center text-3xl"
         ]
         ([ renderFlash model ]
             ++ contentFor model
@@ -293,7 +293,7 @@ renderFlash model =
 
         Flash color f ->
             div
-                [ class <| "bg-" ++ color ++ "-200 text-" ++ color ++ "-900 rounded-lg shadow-md p-6 pr-10"
+                [ class <| "bg-" ++ color ++ "-200 text-" ++ color ++ "-900 rounded-lg shadow-md p-6 pr-10 text-3xl"
                 ]
                 [ f model.lang
                 ]
@@ -322,7 +322,7 @@ btn : String -> Msg -> String -> Html Msg
 btn color msg txt =
     button
         [ type_ "button"
-        , class <| "text-" ++ color ++ "-500 border border-" ++ color ++ "-500 hover:bg-" ++ color ++ "-500 hover:text-white active:bg-" ++ color ++ "-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-2/5"
+        , class <| "text-" ++ color ++ "-500 border border-" ++ color ++ "-500 hover:bg-" ++ color ++ "-500 hover:text-white active:bg-" ++ color ++ "-600 font-bold uppercase px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-2/5 text-3xl"
         , onClick msg
         ]
         [ text txt
@@ -342,13 +342,13 @@ disclaimerCopy : List String
 disclaimerCopy =
     [ "マコ・アップへようこそ！"
     , "開発がかっこいいと言われてくれたブラッドはこのちょっとしたバカバカしいアプリを作ってしまいました。"
-    , "ブラッドは日本語下手で、このアプリをめちゃくちゃ適当に作っちゃったから、そのようなものについて問題があったら、ご理解とご協力をお願いいたします。"
+    , "ブラッドは日本語下手で、このアプリをめちゃくちゃ適当に作っちゃったから、そのようなものについて問題や過ちがあったら、ご理解とご協力をお願いいたします。"
     ]
 
 
 cdCopy : List String
 cdCopy =
-    [ "ところで、ブラッドにはまだよく分からない日本語のことたくさんありますね。"
+    [ "ところで、ブラッドにはまだよく分からない日本語たくさんありますね。"
     , "例えば、ちゃん付けのほうがなれなれしい？それとも名前だけ？という問題ですね。"
     , "ですから、ブラッドからの呼び方を選んでください"
     ]
@@ -358,7 +358,7 @@ ssCopy : N -> List String
 ssCopy n =
     [ "では、今このアプリを使っていらっしゃる者は本当に" ++ name n ++ "であることを確認しないといけません。"
     , "いくつか質問を答えてください。"
-    , "出身は京都でございますか？"
+    , "ご出身は京都でございますか？"
     ]
 
 
